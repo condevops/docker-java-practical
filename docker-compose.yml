@@ -13,9 +13,11 @@ services:
     ports:
       - "80:8080"
     depends_on:
-    - database
+      - db
     networks:
-    - celsius
+      - celsius
+    links:
+      - "db:dev-database"
   db:
     image: mysql:5.6 
     deploy:
@@ -29,13 +31,10 @@ services:
     volumes:
        - db_data:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: root
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: conductor
     networks:
-      - fahrenheit
+      - celsius
 networks:
-  fahrenheit:
-      driver: bridge
   celsius:
       driver: bridge
 volumes:
